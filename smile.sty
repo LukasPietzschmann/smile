@@ -1,0 +1,159 @@
+\ProvidesPackage{smile}[Smart Macros for an Improved LaTeX Experience]
+
+\RequirePackage{kvoptions}
+\SetupKeyvalOptions{family=smile,prefix=smile@}
+
+\DeclareBoolOption{color}
+\DeclareStringOption[blue]{coloraccent}
+
+\DeclareBoolOption{minted}
+\DeclareStringOption[aux]{mintedauxdir}
+
+\DeclareBoolOption{tikz}
+
+\DeclareStringOption[\@title]{pdftitle}
+\DeclareStringOption[\@author]{pdfauthor}
+\DeclareStringOption[\@title]{pdfsubject}
+
+\DeclareBoolOption{widowpenalties}
+
+\DeclareBoolOption{paragraph}
+
+\DeclareBoolOption{lists}
+\DeclareBoolOption{description}
+
+\ProcessKeyvalOptions*
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\ifsmile@color
+	\RequirePackage[table, hyperref]{xcolor}
+
+	\definecolor{red}{HTML}{a51d2d}
+	\definecolor{green}{HTML}{26a269}
+	\definecolor{blue}{HTML}{1a5fb4}
+	\definecolor{cyan}{HTML}{25a8ff}
+	\definecolor{magenta}{HTML}{de3198}
+	\definecolor{yellow}{HTML}{f5c211}
+	\definecolor{black}{HTML}{241f31}
+	\definecolor{gray}{HTML}{c0bfbc}
+	\definecolor{darkgray}{HTML}{77767b}
+	\definecolor{lightgray}{HTML}{deddda}
+	\definecolor{white}{HTML}{ffffff}
+	\definecolor{brown}{HTML}{986a44}
+	\definecolor{lime}{HTML}{9bcf00}
+	\definecolor{olive}{HTML}{aba100}
+	\definecolor{orange}{HTML}{ff7800}
+	% \definecolor{pink}{HTML}{0,0,1}
+	\definecolor{purple}{HTML}{c061cb}
+	% \definecolor{teal}{HTML}{0,0,1}
+	\definecolor{violet}{HTML}{813d9c}
+
+	\newcommand\showcolor[1]{\fboxsep1pt\fbox{\colorbox{#1}{\phantom{XX}}}}
+\else\fi
+
+\colorlet{accent}{\smile@coloraccent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\ifsmile@minted
+	\RequirePackage[newfloat=true,cache=false,outputdir=\smile@mintedauxdir]{minted}
+	\setminted{
+		numbers=left,
+		autogobble=true,
+		breaklines=true,
+		breakbytoken=true,
+		breakbytokenanywhere=true,
+		breaksymbolleft=\tiny\ensuremath{\textcolor{gray}{\hookrightarrow}},
+		frame=lines,
+		samepage=true,
+		tabsize=2,
+		baselinestretch=1.2,
+		fontsize=\small,
+		numbersep=6pt,
+		highlightcolor=lightgray!50
+	}
+	\preto\listing{\appto\endminted\unskip}
+\else\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\ifsmile@tikz
+	\RequirePackage{tikz}
+	\usetikzlibrary{shapes.geometric, arrows, arrows.meta, shapes, automata, positioning, positioning, fit, calc, fadings}
+	\tikzstyle{inline} = [shape=rectangle,inner sep=\z@,text depth=\z@]
+	\tikzstyle{squarenode} = [rectangle, draw=black, line width=0.6pt]
+	\tikzstyle{roundednode} = [squarenode, rounded corners=1mm]
+	\tikzstyle{roundnode} = [squarenode, circle]
+	\tikzstyle{arrow} = [thick,->,>=stealth]
+	\tikzstyle{textarrow} = [darkgray,shorten >=1mm,shorten <=1mm,thick,->,-{Kite[open]}]
+	\tikzstyle{thickarrow} = [
+		thick,
+		decoration={markings, mark=at position 1 with {\arrow[scale=2]{open triangle 60}}},
+		double distance=5pt,
+		shorten >= 13pt,
+		preaction = {decorate},
+		postaction = {draw, line width=5pt, white, shorten >= 7pt}
+	]
+\else\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\AtEndPreamble{
+	\hypersetup{
+		pdfauthor=\smile@pdfauthor
+		pdftitle=\smile@pdftitle
+		pdfsubject=\smile@pdfsubject
+	}
+	\ifsmile@widowpenalties
+		% TODO: make number of lines customisable
+		\widowpenalties 4 10000 10000 10000 0
+		\clubpenalties 4 10000 10000 10000 0
+	\else\fi
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand\fullcirc{\tikz[baseline=-0.6ex]\draw[fill] (0,0) circle (0.35ex);}
+
+
+% TODO: more customisation
+\renewcommand\fullref[1]{\hyperref[{#1}]{\autoref*{#1}~--~\nameref*{#1}~\vpageref{#1}}}
+
+
+\ifsmile@paragraph
+	\let\oldparagraph\paragraph
+	\renewcommand\paragraph[1]{\emph{#1}\hspace{0.5em}\textcolor{accent}{\fullcirc}\hspace{0.5em}}
+\else\fi
+
+
+\ifsmile@lists
+	\RequirePackage[inline]{enumitem}
+	\setlist[enumerate]{itemsep=-0.5\parskip}
+	\setlist[itemize]{itemsep=-0.5\parskip}
+	\ifsmile@description
+		\newcommand\adddot[1]{\normalfont\emph#1\hspace{0.5em}\color{accent}\fullcirc}
+		\setlist[description]{style=sameline, font=\adddot, labelsep=1em}
+	\else
+		\setlist[description]{style=sameline, labelsep=1em}
+	\fi
+\else
+	\ifsmile@description
+		\PackageWarningNoLine{smile}{Setting description has no effect without also
+		setting lists}
+	\else\fi
+\fi
