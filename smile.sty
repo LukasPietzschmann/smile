@@ -1,5 +1,7 @@
 \ProvidesPackage{smile}[Smart Macros for an Improved LaTeX Experience]
 
+\RequirePackage{etoolbox}
+
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions{family=smile,prefix=smile@}
 
@@ -25,6 +27,10 @@
 \DeclareBoolOption{htmlunderline}
 
 \DeclareBoolOption{footnote}
+
+\DeclareBoolOption{hyperref}
+\DeclareBoolOption{fullref}
+
 \ProcessKeyvalOptions*
 
 
@@ -32,9 +38,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\ifsmile@color
-	\RequirePackage[table, hyperref]{xcolor}
+\RequirePackage[table, \ifsmile@hyperref hyperref\else\fi]{xcolor}
 
+\ifsmile@color
 	\definecolor{red}{HTML}{a51d2d}
 	\definecolor{green}{HTML}{26a269}
 	\definecolor{blue}{HTML}{1a5fb4}
@@ -114,11 +120,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \AtEndPreamble{
-	\hypersetup{
-		pdfauthor=\smile@pdfauthor
-		pdftitle=\smile@pdftitle
-		pdfsubject=\smile@pdfsubject
+	\@ifpackageloaded{hyperref}{
+		\hypersetup{
+			pdfauthor=\smile@pdfauthor,
+			pdftitle=\smile@pdftitle,
+			pdfsubject=\smile@pdfsubject
+		}
 	}
+}
+
+\AtBeginDocument{
 	\ifsmile@widowpenalties
 		% TODO: make number of lines customisable
 		\widowpenalties 4 10000 10000 10000 0
@@ -146,8 +157,6 @@
 \else\fi
 
 
-% TODO: more customisation
-\renewcommand\fullref[1]{\hyperref[{#1}]{\autoref*{#1}~--~\nameref*{#1}~\vpageref{#1}}}
 
 
 \ifsmile@paragraph
@@ -177,4 +186,15 @@
 \ifsmile@footnote
 	\newcommand\@myfootnotemark{\guilsinglleft\textcolor{accent}{\arabic{footnote}}\guilsinglright}
 	\renewcommand\thefootnote\@myfootnotemark
+\else\fi
+
+
+\ifsmile@hyperref
+	\ifsmile@fullref\RequirePackage[nospace]{varioref}\else\fi
+	\RequirePackage[hidelinks]{hyperref}
+	\ifsmile@fullref
+		\RequirePackage{cleveref}
+		% TODO: more customisation
+		\renewcommand\fullref[1]{\hyperref[{#1}]{\autoref*{#1}~--~\nameref*{#1}~\vpageref{#1}}}
+	\else\fi
 \else\fi
