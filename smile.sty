@@ -23,6 +23,8 @@
 \DeclareBoolOption{description}
 
 \DeclareBoolOption{htmlunderline}
+
+\DeclareBoolOption{footnote}
 \ProcessKeyvalOptions*
 
 
@@ -170,3 +172,9 @@
 		setting lists}
 	\else\fi
 \fi
+
+
+\ifsmile@footnote
+	\newcommand\@myfootnotemark{\guilsinglleft\textcolor{accent}{\arabic{footnote}}\guilsinglright}
+	\renewcommand\thefootnote\@myfootnotemark
+\else\fi
