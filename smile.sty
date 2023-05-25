@@ -22,6 +22,7 @@
 \DeclareBoolOption{lists}
 \DeclareBoolOption{description}
 
+\DeclareBoolOption{htmlunderline}
 \ProcessKeyvalOptions*
 
 
@@ -129,6 +130,18 @@
 
 
 \newcommand\fullcirc{\tikz[baseline=-0.6ex]\draw[fill] (0,0) circle (0.35ex);}
+
+\RequirePackage[normalem]{ulem}
+\ifsmile@htmlunderline
+	\RequirePackage{contour}
+	\renewcommand\ULdepth{1.8pt}
+	\contourlength{0.8pt}
+	\let\olduline\uline
+	\renewcommand\uline[1]{%
+		\olduline{\phantom{#1}}%
+		\llap{\contour{white}{#1}}%
+	}
+\else\fi
 
 
 % TODO: more customisation
