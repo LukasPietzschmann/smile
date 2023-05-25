@@ -157,6 +157,13 @@
 \else\fi
 
 
+\newcommand\ensureinfocommand[1]{%
+	\ifcsname#1\endcsname\else%
+		\expandafter\newcommand\csname#1\endcsname[1]{%
+			\expandafter\newcommand\csname @#1\endcsname{##1}%
+		}%
+	\fi%
+}
 
 
 \ifsmile@paragraph
