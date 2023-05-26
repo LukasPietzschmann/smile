@@ -145,6 +145,9 @@
 
 
 \newcommand\fullcirc{\tikz[baseline=-0.6ex]\draw[fill] (0,0) circle (0.35ex);}
+\let\oldtextsubscript\textsubscript
+\renewcommand\textsubscript[1]{\scalebox{0.7}{#1}}
+
 
 \RequirePackage[normalem]{ulem}
 \ifsmile@htmlunderline
