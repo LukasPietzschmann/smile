@@ -38,7 +38,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\RequirePackage[table, \ifsmile@hyperref hyperref\else\fi]{xcolor}
+\@ifpackageloaded{xcolor}{}
+{\RequirePackage[table, \ifsmile@hyperref hyperref\else\fi]{xcolor}}
 
 \ifsmile@color
 	\definecolor{red}{HTML}{a51d2d}
@@ -60,6 +61,7 @@
 	\definecolor{purple}{HTML}{c061cb}
 	% \definecolor{teal}{HTML}{0,0,1}
 	\definecolor{violet}{HTML}{813d9c}
+	\definecolor{marroon}{HTML}{63452c}
 
 	\newcommand\showcolor[1]{\fboxsep1pt\fbox{\colorbox{#1}{\phantom{XX}}}}
 \else\fi
@@ -184,7 +186,7 @@
 	\fi
 \else
 	\ifsmile@description
-		\PackageWarningNoLine{smile}{Setting description has no effect without also
+		\PackageError{smile}{Setting description has no effect without also
 		setting lists}
 	\else\fi
 \fi
@@ -198,7 +200,7 @@
 
 \ifsmile@hyperref
 	\ifsmile@fullref\RequirePackage[nospace]{varioref}\else\fi
-	\RequirePackage[hidelinks]{hyperref}
+	\@ifpackageloaded{}{\RequirePackage[hidelinks]{hyperref}}
 	\ifsmile@fullref
 		\RequirePackage{cleveref}
 		% TODO: more customisation
