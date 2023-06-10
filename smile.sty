@@ -38,8 +38,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\@ifpackageloaded{xcolor}{}
-{\RequirePackage[table, \ifsmile@hyperref hyperref\else\fi]{xcolor}}
+\@ifpackageloaded{xcolor}{}{\RequirePackage[table, dvipsnames, \ifsmile@hyperref hyperref\else\fi]{xcolor}}
 
 \ifsmile@color
 	\definecolor{red}{HTML}{a51d2d}
@@ -62,6 +61,7 @@
 	% \definecolor{teal}{HTML}{0,0,1}
 	\definecolor{violet}{HTML}{813d9c}
 	\definecolor{maroon}{HTML}{63452c}
+	\definecolor{darkmaroon}{HTML}{562b41}
 
 	\newcommand\showcolor[1]{\fboxsep1pt\fbox{\colorbox{#1}{\phantom{XX}}}}
 \else\fi
