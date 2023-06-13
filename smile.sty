@@ -100,7 +100,7 @@
 
 \ifsmile@tikz
 	\RequirePackage{tikz}
-	\usetikzlibrary{shapes.geometric, arrows, arrows.meta, shapes, automata, positioning, positioning, fit, calc, fadings}
+	\usetikzlibrary{backgrounds, shapes.geometric, arrows, arrows.meta, shapes, automata, positioning, positioning, fit, calc, fadings}
 	\tikzstyle{inline} = [shape=rectangle,inner sep=\z@,text depth=\z@]
 	\tikzstyle{squarenode} = [rectangle, draw=black, line width=0.6pt]
 	\tikzstyle{roundednode} = [squarenode, rounded corners=1mm]
@@ -115,6 +115,33 @@
 		preaction = {decorate},
 		postaction = {draw, line width=5pt, white, shorten >= 7pt}
 	]
+	% https://tex.stackexchange.com/a/321615/286979
+	\pgfdeclarelayer{foreground}
+	\pgfsetlayers{background,main,foreground}
+
+	\tikzset{%
+		on foreground layer/.style={%
+				execute at begin scope={%
+						\pgfonlayer{foreground}%
+						\let\tikz@options=\pgfutil@empty%
+						\tikzset{every on foreground layer/.try,#1}%
+						\tikz@options%
+					},
+				execute at end scope={\endpgfonlayer}
+			},
+		on layer/.code={%
+				\pgfonlayer{#1}\begingroup
+				\aftergroup\endpgfonlayer
+				\aftergroup\endgroup
+			},
+		node on layer/.code={%
+				\gdef\node@@on@layer{%
+					\setbox\tikz@tempbox=\hbox\bgroup\pgfonlayer{#1}\unhbox\tikz@tempbox\endpgfonlayer\egroup}
+				\aftergroup\node@on@layer
+			},
+	}
+
+	\def\node@on@layer{\aftergroup\node@@on@layer}
 \else\fi
 
 
