@@ -69,6 +69,8 @@
 \colorlet{accent}{\smile@coloraccent}
 
 
+\newlength\smile@linewidth\smile@linewidth1px
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -105,11 +107,12 @@
 	\tikzstyle{squarenode} = [rectangle, fill=white, draw=black, line width=0.6pt]
 	\tikzstyle{roundednode} = [squarenode, rounded corners=1mm]
 	\tikzstyle{roundnode} = [squarenode, circle]
-	\tikzstyle{arrow} = [thick,->,>=stealth]
+	\tikzstyle{arrow} = [line width=\smile@linewidth,->,>=stealth]
 	\tikzstyle{doublearrow} = [arrow,<->]
-	\tikzstyle{textarrow} = [darkgray,shorten >=1mm,shorten <=1mm,thick,->,-{Kite[open]}]
+	\tikzstyle{textarrow} = [darkgray,shorten >=1mm,shorten <=1mm,line width=\smile@linewidth,->,-{Kite[open]}]
+	\tikzstyle{short/.style={shorten >=#1, shorten <=#1}}
 	\tikzstyle{thickarrow} = [
-		thick,
+		line width=\smile@linewidth
 		decoration={markings, mark=at position 1 with {\arrow[scale=2]{open triangle 60}}},
 		double distance=5pt,
 		shorten >= 13pt,
