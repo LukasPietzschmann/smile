@@ -11,6 +11,8 @@
 \DeclareBoolOption{minted}
 \DeclareStringOption[aux]{mintedauxdir}
 
+\DeclareBoolOption{listings}
+
 \DeclareBoolOption{tikz}
 
 \DeclareStringOption[\@title]{pdftitle}
@@ -94,6 +96,89 @@
 		highlightcolor=lightgray!50
 	}
 	\preto\listing{\appto\endminted\unskip}
+\else\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\ifsmile@listings
+	\RequirePackage{listingsutf8}
+	\RequirePackage{lstautogobble}
+	\RequirePackage{accsupp}
+
+	\colorlet{smile@lst@color@background}{yellow!40!red!10!gray!5}
+	\colorlet{smile@lst@color@rule}{gray}
+	\colorlet{smile@lst@color@lnnr}{gray}
+	\colorlet{smile@lst@color@string}{green}
+	\colorlet{smile@lst@color@kwa}{accent}
+	\colorlet{smile@lst@color@kwb}{accent}
+	\colorlet{smile@lst@color@kwc}{accent}
+	\colorlet{smile@lst@color@kwd}{accent}
+	\colorlet{smile@lst@color@comment}{gray}
+	\colorlet{smile@lst@color@number}{blue}
+
+	\def\smile@lst@fsize@base{\dimexpr\f@size\p@\relax}
+	\def\smile@lst@fsize@lnnr{\dimexpr\smile@lst@fsize@base - 0.2\smile@lst@fsize@base\relax}
+
+	\def\smile@lst@nocopy#1{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
+
+	\def\smile@lst@style@linenr{\fontsize{\smile@lst@fsize@lnnr}{\smile@lst@fsize@lnnr}\selectfont\color{smile@lst@color@lnnr}\sffamily}
+	\def\smile@lst@style@base{\fontsize{\smile@lst@fsize@base}{\smile@lst@fsize@base}\selectfont\ttfamily}
+	\def\smile@lst@style@string{\smile@lst@style@base\color{smile@lst@color@string}}
+	\def\smile@lst@style@kwa{\smile@lst@style@base\color{smile@lst@color@kwa}\bfseries}
+	\def\smile@lst@style@kwb{\smile@lst@style@base\color{smile@lst@color@kwb}}
+	\def\smile@lst@style@kwc{\smile@lst@style@base\color{smile@lst@color@kwc}}
+	\def\smile@lst@style@kwd{\smile@lst@style@base\color{smile@lst@color@kwd}}
+	\def\smile@lst@style@comment{\smile@lst@style@base\color{smile@lst@color@comment}\itshape}
+	\def\smile@lst@style@number#1{\ifnum\lst@mode=\lst@Pmode\relax{\smile@lst@style@base\color{smile@lst@color@number} #1}\else#1\fi}
+
+	\lstdefinestyle{smile@lst@base}{
+		backgroundcolor  = \color{smile@lst@color@background},
+		rulecolor        = \color{smile@lst@color@rule},
+		frame            = single,
+		framerule        = \smile@linewidth,
+		autogobble       = true,
+		stringstyle      = \smile@lst@style@string,
+		commentstyle     = \smile@lst@style@comment,
+		keywordstyle     = [1]{\smile@lst@style@kwa},
+		keywordstyle     = [2]{\smile@lst@style@kwb},
+		keywordstyle     = [3]{\smile@lst@style@kwc},
+		keywordstyle     = [4]{\smile@lst@style@kwd},
+		basicstyle       = \smile@lst@style@base,
+		numbers          = left,
+		numberstyle      = \smile@lst@style@linenr\smile@lst@nocopy,
+		breaklines       = true,
+		extendedchars    = true,
+		prebreak         = \rlap{\smile@lst@nocopy{$\hookleftarrow$}},
+		escapeinside     = {§§}{§§},
+		keepspaces       = false,
+		showstringspaces = false,
+		literate         =
+			{0}{{{\smile@lst@style@number{0}}}}1
+			{1}{{{\smile@lst@style@number{1}}}}1
+			{2}{{{\smile@lst@style@number{2}}}}1
+			{3}{{{\smile@lst@style@number{3}}}}1
+			{4}{{{\smile@lst@style@number{4}}}}1
+			{5}{{{\smile@lst@style@number{5}}}}1
+			{6}{{{\smile@lst@style@number{6}}}}1
+			{7}{{{\smile@lst@style@number{7}}}}1
+			{8}{{{\smile@lst@style@number{8}}}}1
+			{9}{{{\smile@lst@style@number{9}}}}1,
+	}
+
+	\lstdefinestyle{smile@lst@plain}{
+		style           = smile@lst@base,
+		numbers         = none,
+		frame           = none,
+		backgroundcolor = {},
+		xleftmargin     = \z@,
+		xrightmargin    = \z@,
+		numbersep       = \z@,
+	}
+
+	\lstset{style=smile@lst@base}
 \else\fi
 
 
