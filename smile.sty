@@ -189,23 +189,31 @@
 \ifsmile@tikz
 	\RequirePackage{tikz}
 	\usetikzlibrary{backgrounds, shapes.geometric, arrows, arrows.meta, shapes, automata, positioning, positioning, fit, calc, fadings}
-	\tikzstyle{inline} = [shape=rectangle,inner sep=\z@,text depth=\z@]
-	\tikzstyle{squarenode} = [rectangle, fill=white, draw=black, line width=0.6pt]
-	\tikzstyle{roundednode} = [squarenode, rounded corners=\smile@rounding]
-	\tikzstyle{roundnode} = [squarenode, circle]
-	\tikzstyle{pill} = [squarenode, rounded rectangle]
-	\tikzstyle{arrow} = [line width=\smile@linewidth,->,>=stealth]
-	\tikzstyle{doublearrow} = [arrow,<->]
-	\tikzstyle{textarrow} = [darkgray,shorten >=1mm,shorten <=1mm,line cap=round,line width=\smile@linewidth,->,-{Kite[open]}]
-	\tikzstyle{short/.style={shorten >=#1, shorten <=#1}}
-	\tikzstyle{thickarrow} = [
-		line width=\smile@linewidth
-		decoration={markings, mark=at position 1 with {\arrow[scale=2]{open triangle 60}}},
-		double distance=5pt,
-		shorten >= 13pt,
-		preaction = {decorate},
-		postaction = {draw, line width=5pt, white, shorten >= 7pt}
-	]
+	\tikzset{
+		lw/.style={line width=\smile@linewidth},
+		lcr/.style={line cap=round},
+		rnd/.style={rounded corners=\smile@rounding},
+		inline/.style={shape=rectangle,inner sep=\z@,text depth=\z@},
+		squarenode/.style={rectangle, fill=white, draw=black, line width=0.6pt},
+		roundednode/.style={squarenode, rnd},
+		roundnode/.style={squarenode, circle},
+		pill/.style={squarenode, rounded rectangle},
+		arrow/.style={lw,->,>=stealth,lcr},
+		doublearrow/.style={arrow,<->},
+		textarrow/.style={arrow,darkgray,short=1mm,->,-{Kite[#1]}},
+		textarrow/.default=open,
+		short/.style n args={1}{shorten <=#1,shorten >=#1},
+		no shadows/.style={general shadow/.style=},
+		shadow/.style={drop shadow={shadow xshift=.2ex, shadow yshift=-.2ex}},
+		thickarrow/.style = {
+			lw,
+			decoration={markings, mark=at position 1 with {\arrow[scale=2]{open triangle 60}}},
+			double distance=5pt,
+			shorten >= 13pt,
+			preaction = {decorate},
+			postaction = {draw, line width=5pt, white, shorten >= 7pt}
+		}
+	}
 	% https://tex.stackexchange.com/a/321615/286979
 	\pgfdeclarelayer{foreground}
 	\pgfsetlayers{background,main,foreground}
