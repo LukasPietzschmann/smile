@@ -194,7 +194,7 @@
 		lcr/.style={line cap=round},
 		rnd/.style={rounded corners=\smile@rounding},
 		inline/.style={shape=rectangle,inner sep=\z@,text depth=\z@},
-		squarenode/.style={rectangle, fill=white, draw=black, line width=0.6pt},
+		squarenode/.style={rectangle, fill=white, draw=black, lw},
 		roundednode/.style={squarenode, rnd},
 		roundnode/.style={squarenode, circle},
 		pill/.style={squarenode, rounded rectangle},
@@ -204,15 +204,7 @@
 		textarrow/.default=open,
 		short/.style n args={1}{shorten <=#1,shorten >=#1},
 		no shadows/.style={general shadow/.style=},
-		shadow/.style={drop shadow={shadow xshift=.2ex, shadow yshift=-.2ex}},
-		thickarrow/.style = {
-			lw,
-			decoration={markings, mark=at position 1 with {\arrow[scale=2]{open triangle 60}}},
-			double distance=5pt,
-			shorten >= 13pt,
-			preaction = {decorate},
-			postaction = {draw, line width=5pt, white, shorten >= 7pt}
-		}
+		shadow/.style={drop shadow={shadow xshift=.2ex, shadow yshift=-.2ex}}
 	}
 	% https://tex.stackexchange.com/a/321615/286979
 	\pgfdeclarelayer{foreground}
