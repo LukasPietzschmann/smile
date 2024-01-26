@@ -40,7 +40,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\@ifpackageloaded{xcolor}{}{\RequirePackage[table, dvipsnames, \ifsmile@hyperref hyperref\else\fi]{xcolor}}
+\@ifpackageloaded{xcolor}{}{\ifsmile@hyperref\RequirePackage[table, dvipsnames, hyperref]{xcolor}\else\RequirePackage[table, dvipsnames]{xcolor}\fi}
 
 \ifsmile@color
 	\definecolor{red}{HTML}{a51d2d}
