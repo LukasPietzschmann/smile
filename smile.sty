@@ -134,6 +134,9 @@
 	\def\smile@lst@style@comment{\smile@lst@style@base\color{smile@lst@color@comment}\itshape}
 	\def\smile@lst@style@number#1{\ifnum\lst@mode=\lst@Pmode\relax{\smile@lst@style@base\color{smile@lst@color@number} #1}\else#1\fi}
 
+	% Holy shit, this took some trial and error. Expansion is like magic some times
+	\lst@Key{apptoliterate}{}{\xdef\lst@literate{\unexpanded\expandafter{\lst@literate}\unexpanded{#1}}}
+
 	\lstdefinestyle{smile@lst@base}{
 		backgroundcolor  = \color{smile@lst@color@background},
 		rulecolor        = \color{smile@lst@color@rule},
@@ -155,7 +158,7 @@
 		escapeinside     = {§}{§},
 		keepspaces       = false,
 		showstringspaces = false,
-		literate         =
+		apptoliterate    =
 			{0}{{{\smile@lst@style@number{0}}}}1
 			{1}{{{\smile@lst@style@number{1}}}}1
 			{2}{{{\smile@lst@style@number{2}}}}1
