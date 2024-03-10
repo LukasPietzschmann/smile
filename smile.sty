@@ -207,7 +207,8 @@
 		textarrow/.default=open,
 		short/.style n args={1}{shorten <=#1,shorten >=#1},
 		no shadows/.style={general shadow/.style=},
-		shadow/.style={drop shadow={shadow xshift=.2ex, shadow yshift=-.2ex}}
+		shadow/.style={drop shadow={shadow xshift=.2ex, shadow yshift=-.2ex}},
+		o={remember picture,overlay}
 	}
 	% https://tex.stackexchange.com/a/321615/286979
 	\pgfdeclarelayer{foreground}
