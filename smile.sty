@@ -108,16 +108,19 @@
 	\RequirePackage{lstautogobble}
 	\RequirePackage{accsupp}
 
-	\colorlet{smile@lst@color@background}{yellow!40!red!10!gray!5}
-	\colorlet{smile@lst@color@rule}{gray}
-	\colorlet{smile@lst@color@lnnr}{gray}
-	\colorlet{smile@lst@color@string}{green}
-	\colorlet{smile@lst@color@kwa}{accent}
-	\colorlet{smile@lst@color@kwb}{accent}
-	\colorlet{smile@lst@color@kwc}{accent}
-	\colorlet{smile@lst@color@kwd}{accent}
-	\colorlet{smile@lst@color@comment}{gray}
-	\colorlet{smile@lst@color@number}{blue}
+	\def\smile@listings@initcolors{
+		\colorlet{smile@lst@color@background}{yellow!40!red!10!gray!5}
+		\colorlet{smile@lst@color@rule}{gray}
+		\colorlet{smile@lst@color@lnnr}{gray}
+		\colorlet{smile@lst@color@string}{green}
+		\colorlet{smile@lst@color@kwa}{accent}
+		\colorlet{smile@lst@color@kwb}{accent}
+		\colorlet{smile@lst@color@kwc}{accent}
+		\colorlet{smile@lst@color@kwd}{accent}
+		\colorlet{smile@lst@color@comment}{gray}
+		\colorlet{smile@lst@color@number}{blue}
+	}\smile@listings@initcolors
+
 
 	\def\smile@lst@fsize@base{\dimexpr\f@size\p@\relax}
 	\def\smile@lst@fsize@lnnr{\dimexpr\smile@lst@fsize@base - 0.2\smile@lst@fsize@base\relax}
