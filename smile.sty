@@ -246,15 +246,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\AtEndPreamble{
-	\@ifpackageloaded{hyperref}{
-		\hypersetup{
-			pdfauthor=\smile@pdfauthor,
-			pdftitle=\smile@pdftitle,
-			pdfsubject=\smile@pdfsubject
-		}
+\@ifpackageloaded{hyperref}{\AtEndPreamble{
+	\hypersetup{
+		pdfauthor=\smile@pdfauthor,
+		pdftitle=\smile@pdftitle,
+		pdfsubject=\smile@pdfsubject
 	}
-}
+}}
 
 \AtBeginDocument{
 	\ifsmile@widowpenalties
