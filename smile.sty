@@ -8,9 +8,6 @@
 \DeclareBoolOption{color}
 \DeclareStringOption[blue]{coloraccent}
 
-\DeclareBoolOption{minted}
-\DeclareStringOption[aux]{mintedauxdir}
-
 \DeclareBoolOption{listings}
 
 \DeclareBoolOption{tikz}
@@ -78,31 +75,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\ifsmile@minted
-	\RequirePackage[newfloat=true,cache=false,outputdir=\smile@mintedauxdir]{minted}
-	\setminted{
-		numbers=left,
-		autogobble=true,
-		breaklines=true,
-		breakbytoken=true,
-		breakbytokenanywhere=true,
-		breaksymbolleft=\tiny\ensuremath{\textcolor{gray}{\hookrightarrow}},
-		frame=lines,
-		samepage=true,
-		tabsize=2,
-		baselinestretch=1.2,
-		fontsize=\small,
-		numbersep=6pt,
-		highlightcolor=lightgray!50
-	}
-	\preto\listing{\appto\endminted\unskip}
-\else\fi
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 \ifsmile@listings
 	\RequirePackage{listingsutf8}
 	\RequirePackage{lstautogobble}
@@ -119,6 +91,7 @@
 		\colorlet{smile@lst@color@kwd}{accent}
 		\colorlet{smile@lst@color@comment}{gray}
 		\colorlet{smile@lst@color@number}{blue}
+		\colorlet{smile@lst@color@tab}{lightgray}
 	}\smile@listings@initcolors
 
 
@@ -155,6 +128,9 @@
 		basicstyle       = \smile@lst@style@base,
 		numbers          = left,
 		numberstyle      = \smile@lst@style@linenr\smile@lst@nocopy,
+		showtabs         = true,
+		tabsize          = 2,
+		tab              = {\color{smile@lst@color@tab}\smile@lst@nocopy{\guilsinglright}\hfill},
 		breaklines       = true,
 		extendedchars    = true,
 		prebreak         = \rlap{\smile@lst@nocopy{$\hookleftarrow$}},
@@ -219,26 +195,26 @@
 
 	\tikzset{%
 		on foreground layer/.style={%
-				execute at begin scope={%
-						\pgfonlayer{foreground}%
-						\let\tikz@options=\pgfutil@empty%
-						\tikzset{every on foreground layer/.try,#1}%
-						\tikz@options%
-					},
-				execute at end scope={\endpgfonlayer}
+			execute at begin scope={%
+				\pgfonlayer{foreground}%
+				\let\tikz@options=\pgfutil@empty%
+				\tikzset{every on foreground layer/.try,#1}%
+				\tikz@options%
 			},
+			execute at end scope={\endpgfonlayer}
+		},
 		on layer/.code={%
-				\pgfonlayer{#1}\begingroup
-				\aftergroup\endpgfonlayer
-				\aftergroup\endgroup
-			},
+			\pgfonlayer{#1}\begingroup
+			\aftergroup\endpgfonlayer
+			\aftergroup\endgroup
+		},
 		node on layer/.code={%
-				\gdef\node@@on@layer{%
-					\setbox\tikz@tempbox=\hbox\bgroup\pgfonlayer{#1}\unhbox\tikz@tempbox\endpgfonlayer\egroup}
-				\aftergroup\node@on@layer
-			},
+			\gdef\node@@on@layer{%
+				\setbox\tikz@tempbox=\hbox\bgroup\pgfonlayer{#1}\unhbox\tikz@tempbox\endpgfonlayer\egroup}
+			\aftergroup\node@on@layer
+		},
+		nol/.style={node on layer=#1}
 	}
-
 	\def\node@on@layer{\aftergroup\node@@on@layer}
 \else\fi
 
