@@ -18,11 +18,6 @@
 
 \DeclareBoolOption{widowpenalties}
 
-\DeclareBoolOption{paragraph}
-
-\DeclareBoolOption{lists}
-\DeclareBoolOption{description}
-
 \DeclareBoolOption{htmlunderline}
 
 \DeclareBoolOption{footnote}
@@ -281,30 +276,6 @@
 		\expandafter\newcommand\csname#1\endcsname[2][]{\smile@ensurehelper{#1}{##1}{##2}}%
 	\fi%
 }
-
-
-\ifsmile@paragraph
-	\let\oldparagraph\paragraph
-	\renewcommand\paragraph[1]{\emph{#1}\hspace{0.5em}\textcolor{accent}{\fullcirc}\hspace{0.5em}}
-\else\fi
-
-
-\ifsmile@lists
-	\RequirePackage[inline]{enumitem}
-	\setlist[enumerate]{itemsep=-0.5\parskip}
-	\setlist[itemize]{itemsep=-0.5\parskip}
-	\ifsmile@description
-		\newcommand\adddot[1]{\normalfont\emph#1\hspace{0.5em}\color{accent}\fullcirc}
-		\setlist[description]{style=sameline, font=\adddot, labelsep=1em}
-	\else
-		\setlist[description]{style=sameline, labelsep=1em}
-	\fi
-\else
-	\ifsmile@description
-		\PackageError{smile}{Setting description has no effect without also
-		setting lists}
-	\else\fi
-\fi
 
 
 \ifsmile@footnote
