@@ -170,7 +170,7 @@
 
 \ifsmile@tikz
 	\RequirePackage{tikz}
-	\usetikzlibrary{backgrounds, shapes.geometric, arrows, arrows.meta, shapes, automata, positioning, positioning, fit, calc, fadings, shadows}
+	\usetikzlibrary{backgrounds,shapes.geometric,arrows,arrows.meta,shapes,automata,positioning,fit,calc,fadings,shadows}
 	\tikzset{
 		lw/.style={line width=\smile@linewidth},
 		lcr/.style={line cap=round},
@@ -187,6 +187,9 @@
 		short/.style n args={1}{shorten <=#1,shorten >=#1},
 		no shadows/.style={general shadow/.style=},
 		shadow/.style={drop shadow={shadow xshift=.2ex, shadow yshift=-.2ex}},
+		pfill/.style n args={2}{path picture={
+			\fill[#1] (path picture bounding box.south west) rectangle ($(path picture bounding box.north west)!#2!(path picture bounding box.north east)$);
+		}},
 		o/.style={remember picture,overlay}
 	}
 	% https://tex.stackexchange.com/a/321615/286979
