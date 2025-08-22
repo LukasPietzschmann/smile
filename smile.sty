@@ -261,19 +261,20 @@
 
 \newcommand\isempty[1]{\relax\detokenize{#1}\relax}
 
-\newcommand\smile@ensurehelper[3]{%
-	\expandafter\def\csname @#1\endcsname{#3}%
+\newcommand\smile@ensurehelper[4]{%
+	\expandafter\gdef\csname #4@#1\endcsname{#3}%
 	\if\isempty{#2}%
-		\expandafter\def\csname @short#1\endcsname{#3}%
+		\expandafter\gdef\csname #4@short#1\endcsname{#3}%
 	\else%
-		\expandafter\def\csname @short#1\endcsname{#2}%
+		\expandafter\gdef\csname #4@short#1\endcsname{#2}%
 	\fi%
 }
-\newcommand\ensureinfocommand[1]{%
-	\ifcsname#1\endcsname%
-		\expandafter\renewcommand\csname#1\endcsname[2][]{\smile@ensurehelper{#1}{##1}{##2}}%
+\def\smile@infoscope{}
+\newcommand\ensureinfocommand[2][]{%
+	\ifcsname#2\endcsname%
+		\expandafter\renewcommand\csname#2\endcsname[2][]{\smile@ensurehelper{#2}{##1}{##2}{#1}}%
 	\else%
-		\expandafter\newcommand\csname#1\endcsname[2][]{\smile@ensurehelper{#1}{##1}{##2}}%
+		\expandafter\newcommand\csname#2\endcsname[2][]{\smile@ensurehelper{#2}{##1}{##2}{#1}}%
 	\fi%
 }
 
